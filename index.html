@@ -318,16 +318,14 @@
         <button class="btn-celebrate" onclick="burstHearts(event)">Bấm vào đây nè ❤️</button>
     </div>
 
-    <!-- Music Player Controls -->
     <div class="music-player" onclick="toggleMusic()">
         <img src="z7598798369369_372c8887db29e9e33a1b742ecca0c4ba.jpg" id="disc">
     </div>
 
-    <!-- Audio element với các thuộc tính hỗ trợ -->
-    <audio id="bg-music" loop preload="auto">
-        <source src="7598877898002.mp4" type="audio/mp4">
+    <!-- Đổi từ <audio> sang <video> ẩn vì file của bạn là .mp4 -->
+    <video id="bg-music" loop playsinline style="display:none;">
         <source src="7598877898002.mp4" type="video/mp4">
-    </audio>
+    </video>
 
     <script>
         const canvas = document.getElementById('canvas-bg');
@@ -412,15 +410,15 @@
 
         function openCard() {
             document.getElementById('card').classList.toggle('open');
-            // Kích hoạt âm thanh khi tương tác
             if (audio.paused) playAudio();
         }
 
         function playAudio() {
+            // Cố gắng phát lại nhiều lần nếu trình duyệt chặn
             audio.play().then(() => {
                 disc.style.animationPlayState = "running";
             }).catch(error => {
-                console.log("Audio play failed:", error);
+                console.log("Audio play failed, retrying on next interaction.");
             });
         }
 
@@ -434,7 +432,6 @@
         }
 
         function burstHearts(e) {
-            // Đảm bảo âm thanh chạy khi click nút
             if (audio.paused) playAudio();
             
             const rect = e.target.getBoundingClientRect();
